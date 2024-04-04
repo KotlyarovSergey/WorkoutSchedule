@@ -10,6 +10,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
+    // TODO
+    // сохранине/загрузка последней тренировки
+    // Таймер
+    // истроия тренировок
+    //
+
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var workoutPlan: WorkoutPlan
     private var timer = 0
@@ -28,8 +35,8 @@ class MainActivity : AppCompatActivity() {
     private fun initialisation() {
         // TODO посторяющиеся операции. Вынести в функию
 //        binding.tvPlan.text = currentPlan.currentExercises
-        binding.tvPlan.text = listToNumbericString(workoutPlan.currentExercises)
-        val number = workoutPlan.currentPress.ordinal + 1
+        binding.tvPlan.text = listToNumbericString(workoutPlan.exercises)
+        val number = workoutPlan.press.ordinal + 1
         val txt = "${getString(R.string.plan_name_prefix)}$number"
         binding.tvPlanNumber.text = txt
 
@@ -39,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnNext.setOnClickListener {
 //            binding.tvPlan.text = currentPlan.next()
             binding.tvPlan.text = listToNumbericString(workoutPlan.next())
-            val number = workoutPlan.currentPress.ordinal + 1
+            val number = workoutPlan.press.ordinal + 1
             val txt = "${getString(R.string.plan_name_prefix)}$number"
             binding.tvPlanNumber.text = txt
         }
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
 //            binding.tvPlan.text = currentPlan.previous()
             binding.tvPlan.text = listToNumbericString(workoutPlan.previous())
-            val number = workoutPlan.currentPress.ordinal + 1
+            val number = workoutPlan.press.ordinal + 1
             val txt = "${getString(R.string.plan_name_prefix)}$number"
             binding.tvPlanNumber.text = txt
         }
@@ -74,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             binding.btnStart.visibility = View.VISIBLE
 //            binding.tvPlan.text = currentPlan.next()
             binding.tvPlan.text = listToNumbericString(workoutPlan.next())
-            val number = workoutPlan.currentPress.ordinal + 1
+            val number = workoutPlan.press.ordinal + 1
             val txt = "${getString(R.string.plan_name_prefix)}$number"
             binding.tvPlanNumber.text = txt
             binding.btnBack.visibility = View.VISIBLE
@@ -101,19 +108,19 @@ class MainActivity : AppCompatActivity() {
 
 
         return WorkoutPlan(
-            WorkoutPlan.PressExercises.PressPlans.FIRST,
-            WorkoutPlan.PressExercises.BarPlans.FIRST
+            WorkoutPlan.Plans.PressPlan.FIRST,
+            WorkoutPlan.Plans.BarPlan.FIRST
         )
     }
 
     private fun saveData() {
-        val press = workoutPlan.currentPress.name
-        val bar = workoutPlan.currentBar.name
+        val press = workoutPlan.press.name
+        val bar = workoutPlan.bar.name
 
 
         Log.i("ksvlog", "press: $press, bar: $bar")
         try {
-            var p = WorkoutPlan.PressExercises.PressPlans.valueOf(press)  // Здесь вылет если завершаем THIRD план !!!!!!!!!!!
+            var p = WorkoutPlan.Plans.PressPlan.valueOf(press)  // Здесь вылет если завершаем THIRD план !!!!!!!!!!!
             Log.i("ksvlog", "p: ${p.name}")
         } catch (exception: IllegalArgumentException){
             // как-то так может случиться, что поля с таким именем в enum'е нет

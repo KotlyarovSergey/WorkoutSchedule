@@ -1,7 +1,5 @@
 package com.ksv.workoutschedule
 
-import java.lang.StringBuilder
-
 val pressPlan1 =
     listOf<String>("Маятник", "Ситап", "Косые скручивания", "Книжка", "Скручивания с поворотом")
 val pressPlan2 = listOf<String>("Сотня", "Скамья", "Велосипед", "Планка", "Твист")
@@ -10,94 +8,74 @@ val pressPlan3 = listOf<String>("Маятник", "Косые скручиван
 const val barPlan1 = "Подтягивания широким хватом"
 const val barPlan2 = "Подтягивания нормальным хватом"
 
-class WorkoutPlan(pressPlan: PressPlans, barExercise: BarPlans) {
-//    var currentExercises: String = ""
-    var currentExercises: List<String> = listOf()
+class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
+    var exercises: List<String> = listOf()
         private set
 
-    var currentPress = pressPlan
+    var press = pressPlan
         private set
-    var currentBar = barExercise
+    var bar = barExercise
         private set
-
 
     init {
         generateCurrentExercise()
     }
 
-    companion object PressExercises {
-        enum class PressPlans {
+    companion object Plans {
+        enum class PressPlan {
             FIRST, SECOND, THIRST
         }
-        enum class BarPlans {
+        enum class BarPlan {
             FIRST, SECOND
         }
     }
 
-
-//    fun next(): String {
     fun next(): List<String> {
-        currentPress = when (currentPress) {
-            PressPlans.FIRST -> PressPlans.SECOND
-            PressPlans.SECOND -> PressPlans.THIRST
-            PressPlans.THIRST -> PressPlans.FIRST
+        press = when (press) {
+            PressPlan.FIRST -> PressPlan.SECOND
+            PressPlan.SECOND -> PressPlan.THIRST
+            PressPlan.THIRST -> PressPlan.FIRST
         }
 
-        currentBar = when (currentBar) {
-            BarPlans.FIRST -> BarPlans.SECOND
-            BarPlans.SECOND -> BarPlans.FIRST
+        bar = when (bar) {
+            BarPlan.FIRST -> BarPlan.SECOND
+            BarPlan.SECOND -> BarPlan.FIRST
         }
 
         generateCurrentExercise()
 
-        return currentExercises
+        return exercises
     }
 
-//    fun previous(): String {
     fun previous(): List<String> {
-        currentPress = when (currentPress) {
-            PressPlans.FIRST -> PressPlans.THIRST
-            PressPlans.SECOND -> PressPlans.FIRST
-            PressPlans.THIRST -> PressPlans.SECOND
+        press = when (press) {
+            PressPlan.FIRST -> PressPlan.THIRST
+            PressPlan.SECOND -> PressPlan.FIRST
+            PressPlan.THIRST -> PressPlan.SECOND
         }
 
-        currentBar = when (currentBar) {
-            BarPlans.FIRST -> BarPlans.SECOND
-            BarPlans.SECOND -> BarPlans.FIRST
+        bar = when (bar) {
+            BarPlan.FIRST -> BarPlan.SECOND
+            BarPlan.SECOND -> BarPlan.FIRST
         }
 
         generateCurrentExercise()
 
-        return currentExercises
+        return exercises
     }
-
 
     private fun generateCurrentExercise() {
-        val exerciseList = when (currentPress) {
-            PressPlans.FIRST -> pressPlan1.toMutableList()
-            PressPlans.SECOND -> pressPlan2.toMutableList()
-            PressPlans.THIRST -> pressPlan3.toMutableList()
+        val exerciseList = when (press) {
+            PressPlan.FIRST -> pressPlan1.toMutableList()
+            PressPlan.SECOND -> pressPlan2.toMutableList()
+            PressPlan.THIRST -> pressPlan3.toMutableList()
         }
 
-        when (currentBar) {
-            BarPlans.FIRST -> exerciseList.add(barPlan1)
-            BarPlans.SECOND -> exerciseList.add(barPlan2)
+        when (bar) {
+            BarPlan.FIRST -> exerciseList.add(barPlan1)
+            BarPlan.SECOND -> exerciseList.add(barPlan2)
         }
 
-//        currentExercises = listToNumbericString(exerciseList)
-        currentExercises = exerciseList.toList()
+        exercises = exerciseList.toList()
     }
-
-    private fun listToNumbericString(list: List<String>): String {
-        val builder = StringBuilder()
-        for ((i, e) in list.withIndex()) {
-            builder.append("${i + 1}. $e\n")
-        }
-        if (builder.isNotEmpty())
-            builder.setLength(builder.length - 1)
-        return builder.toString()
-
-    }
-
-
 }
