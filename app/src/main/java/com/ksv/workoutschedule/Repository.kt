@@ -1,15 +1,22 @@
 package com.ksv.workoutschedule
 
 import android.content.Context
+import android.content.Context.MODE_APPEND
 import android.content.Context.MODE_PRIVATE
 import android.util.Log
+import android.widget.Toast
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 
 private const val HISTORY_FILE_NAME = "history.txt"
 private const val PREFERENCE_NAME = "preference_name"
 private const val SHARED_PREFS_LAST_PLAN_BAR = "shared_prefs_last_plan_bar"
 private const val SHARED_PREFS_LAST_PLAN_PRESS = "shared_prefs_last_plan_press"
+private const val FILE_WRITE_ERROR_MSG = "Ошибка записи файла истории"
+private const val FILE_READ_ERROR_MSG = "Ошибка чтения файла истории"
 
-class Repository(context: Context) {
+class Repository(private val context: Context) {
     private val prefs = context.getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
     fun saveWorkoutPlan(plan: WorkoutPlan) {
         saveWorkoutPlanToSharedPreference(plan)
@@ -24,13 +31,38 @@ class Repository(context: Context) {
             )
     }
 
-    fun addWorkoutPlanToHistory(plan: WorkoutPlan) {
+    fun addWorkoutPlanToHistory(data: String) {
+        var fos: FileOutputStream? = null
+        try {
+            fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_APPEND)
+//            fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_PRIVATE)
+            fos.write(data.toByteArray())
+        } catch (ex: IOException) {
+            Toast.makeText(context, FILE_WRITE_ERROR_MSG, Toast.LENGTH_SHORT).show()
+        } finally {
+            fos?.close()
+        }
+
 
     }
 
     fun loadHistory(): List<String> {
+        var fin: FileInputStream? = null
+        return try {
+            fin = context.openFileInput(HISTORY_FILE_NAME)
+            val bytes = ByteArray(fin.available())
+            fin.read(bytes)
+            val string = String(bytes)
+            Log.d("ksvlog", string)
+            string.split("\n")
+        } catch (ex: IOException) {
+            Toast.makeText(context, FILE_READ_ERROR_MSG, Toast.LENGTH_SHORT).show()
+            listOf()
+        } finally {
+            fin?.close()
+        }
 
-        return listOf("")
+//        return listOf("")
     }
 
 

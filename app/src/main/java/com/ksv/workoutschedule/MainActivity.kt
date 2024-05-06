@@ -2,11 +2,12 @@ package com.ksv.workoutschedule
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
-import java.lang.StringBuilder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.text.StringBuilder
 
 class MainActivity : AppCompatActivity() {
     // TODO
@@ -31,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         workoutPlan.next()
         initialisation()
 
+
+        // todo удалить! использовалось для просмотра истории
+        binding.tvPlan.setOnClickListener {
+            val history = repo.loadHistory()
+            binding.tvPlan.textSize = 18.0f
+//            val text = history.toString()
+            val text = history.joinToString("\n")
+            binding.tvPlan.text = text
+        }
     }
 
 
@@ -47,18 +57,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnNext.setOnClickListener {
 //            binding.tvPlan.text = currentPlan.next()
+
             binding.tvPlan.text = listToNumbericString(workoutPlan.next())
-            val number = workoutPlan.press.ordinal + 1
-            val txt = "${getString(R.string.plan_name_prefix)}$number"
-            binding.tvPlanNumber.text = txt
+            val ordinalNumber = workoutPlan.press.ordinal + 1
+            val text = "${getString(R.string.plan_name_prefix)}$ordinalNumber"
+            binding.tvPlanNumber.text = text
         }
 
         binding.btnBack.setOnClickListener {
 //            binding.tvPlan.text = currentPlan.previous()
             binding.tvPlan.text = listToNumbericString(workoutPlan.previous())
-            val number = workoutPlan.press.ordinal + 1
-            val txt = "${getString(R.string.plan_name_prefix)}$number"
-            binding.tvPlanNumber.text = txt
+            val ordinalNumber = workoutPlan.press.ordinal + 1
+            val text = "${getString(R.string.plan_name_prefix)}$ordinalNumber"
+            binding.tvPlanNumber.text = text
         }
 
         binding.btnStart.setOnClickListener {
@@ -83,9 +94,9 @@ class MainActivity : AppCompatActivity() {
             binding.btnStart.visibility = View.VISIBLE
 //            binding.tvPlan.text = currentPlan.next()
             binding.tvPlan.text = listToNumbericString(workoutPlan.next())
-            val number = workoutPlan.press.ordinal + 1
-            val txt = "${getString(R.string.plan_name_prefix)}$number"
-            binding.tvPlanNumber.text = txt
+            val ordinalNumber = workoutPlan.press.ordinal + 1
+            val text = "${getString(R.string.plan_name_prefix)}$ordinalNumber"
+            binding.tvPlanNumber.text = text
             binding.btnBack.visibility = View.VISIBLE
             binding.btnNext.visibility = View.VISIBLE
 //            // TODO сделать переключатель в ресурсах как положено
@@ -113,22 +124,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveData() {
         repo.saveWorkoutPlan(workoutPlan)
-        repo.addWorkoutPlanToHistory(workoutPlan)
+        repo.addWorkoutPlanToHistory(getLineToHistory())
+    }
 
-//
-//        val press = workoutPlan.press.name
-//        val bar = workoutPlan.bar.name
-//
-//
-//        Log.i("ksvlog", "press: $press, bar: $bar")
-//        try {
-//            var p = WorkoutPlan.Plans.PressPlan.valueOf(press)  // Здесь вылет если завершаем THIRD план !!!!!!!!!!!
-//            Log.i("ksvlog", "p: ${p.name}")
-//        } catch (exception: IllegalArgumentException){
-//            // как-то так может случиться, что поля с таким именем в enum'е нет
-//        }
+    private fun getLineToHistory(): String{
+        val date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
+        val builder = StringBuilder()
+        builder.append(date)
+        builder.append(": ")
+        builder.append(workoutPlan.planToHistory())
+        builder.append("\n")
 
+        return builder.toString()
     }
 
     private fun listToNumbericString(list: List<String>): String {

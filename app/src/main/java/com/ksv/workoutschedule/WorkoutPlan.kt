@@ -25,6 +25,7 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
         enum class PressPlan {
             FIRST, SECOND, THIRST
         }
+
         enum class BarPlan {
             FIRST, SECOND
         }
@@ -62,6 +63,11 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
         generateCurrentExercise()
 
         return exercises
+    }
+
+    fun planToHistory(): String {
+        // TODO реализовать!
+        return ""
     }
 
     private fun generateCurrentExercise() {
