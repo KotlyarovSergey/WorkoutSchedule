@@ -2,7 +2,6 @@ package com.ksv.workoutschedule
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
 import java.lang.StringBuilder
@@ -19,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var workoutPlan: WorkoutPlan
+    private lateinit var repo: Repository
     private var timer = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        workoutPlan = loadData()
+        repo = Repository(this)
+        workoutPlan = loadLastWorkoutPlan()
+        workoutPlan.next()
         initialisation()
 
     }
@@ -104,27 +106,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadData(): WorkoutPlan {
+    private fun loadLastWorkoutPlan(): WorkoutPlan {
 
-
-        return WorkoutPlan(
-            WorkoutPlan.Plans.PressPlan.FIRST,
-            WorkoutPlan.Plans.BarPlan.FIRST
-        )
+        return repo.loadWorkoutPlan()
     }
 
     private fun saveData() {
-        val press = workoutPlan.press.name
-        val bar = workoutPlan.bar.name
+        repo.saveWorkoutPlan(workoutPlan)
+        repo.addWorkoutPlanToHistory(workoutPlan)
 
-
-        Log.i("ksvlog", "press: $press, bar: $bar")
-        try {
-            var p = WorkoutPlan.Plans.PressPlan.valueOf(press)  // Здесь вылет если завершаем THIRD план !!!!!!!!!!!
-            Log.i("ksvlog", "p: ${p.name}")
-        } catch (exception: IllegalArgumentException){
-            // как-то так может случиться, что поля с таким именем в enum'е нет
-        }
+//
+//        val press = workoutPlan.press.name
+//        val bar = workoutPlan.bar.name
+//
+//
+//        Log.i("ksvlog", "press: $press, bar: $bar")
+//        try {
+//            var p = WorkoutPlan.Plans.PressPlan.valueOf(press)  // Здесь вылет если завершаем THIRD план !!!!!!!!!!!
+//            Log.i("ksvlog", "p: ${p.name}")
+//        } catch (exception: IllegalArgumentException){
+//            // как-то так может случиться, что поля с таким именем в enum'е нет
+//        }
 
 
     }
