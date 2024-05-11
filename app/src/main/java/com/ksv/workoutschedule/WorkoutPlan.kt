@@ -1,6 +1,10 @@
 package com.ksv.workoutschedule
 
 class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
+    constructor() : this(PressPlan.FIRST, BarPlan.FIRST) {
+
+    }
+
     var exercises = listOf<String>()
         private set
 
@@ -43,8 +47,12 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
     }
 
     fun planToHistory(): String {
-        // TODO реализовать!
-        return ""
+        // TODO     плохо!!! надо переделать!
+        val barShort = when(bar){
+            BarPlan.FIRST -> "ш"
+            BarPlan.SECOND -> "у"
+        }
+        return "${press.ordinal + 1}-$barShort"
     }
 
     private fun makeListOfExercise() {
@@ -60,7 +68,7 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
         exercises = exerciseList.toList()
     }
 
-    companion object Plans {
+    companion object Plans{
         enum class PressPlan {
             FIRST, SECOND, THIRST
         }
@@ -68,10 +76,10 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
             FIRST, SECOND
         }
 
-        val pressPlan1 =
+        private val pressPlan1 =
             listOf("Маятник", "Ситап", "Косые скручивания", "Книжка", "Скручивания с поворотом")
-        val pressPlan2 = listOf("Сотня", "Скамья", "Велосипед", "Планка", "Твист")
-        val pressPlan3 = listOf("Маятник", "Косые скручивания", "Скамья", "Планка", "Сотня")
+        private val pressPlan2 = listOf("Сотня", "Скамья", "Велосипед", "Планка", "Твист")
+        private val pressPlan3 = listOf("Маятник", "Косые скручивания", "Скамья", "Планка", "Сотня")
 
         const val barPlan1 = "Подтягивания широким хватом"
         const val barPlan2 = "Подтягивания нормальным хватом"

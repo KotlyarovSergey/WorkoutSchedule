@@ -3,7 +3,10 @@
     <style name="Base.Theme.WorkoutSchedule" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/background</item>
+<!--        <item name="colorAccent">#A3A087</item>-->
+<!--        <item name="colorPrimaryDark">#8E8B77</item>-->
     </style>
 
-    <style name="Theme.WorkoutSchedule" parent="Base.Theme.WorkoutSchedule" />
+    <style name="Theme.WorkoutSchedule" parent="Base.Theme.WorkoutSchedule"/>
 </resources>
