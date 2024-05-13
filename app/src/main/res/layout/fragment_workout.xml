@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".MainFragment">
+        tools:context=".view.WorkoutFragment">
 
         <TextView
             android:id="@+id/tvDate"
@@ -66,7 +66,7 @@
             android:backgroundTint="@color/background"
             android:contentDescription="@string/previous"
             android:onClick="@{() -> viewModel.previousWorkoutPlan()}"
-            android:clickable="@{viewModel.state != State.Workout.INSTANCE}"
+            android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
             app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
@@ -81,7 +81,7 @@
             android:backgroundTint="@color/background"
             android:contentDescription="@string/next"
             android:onClick="@{() -> viewModel.nextWorkoutPlan()}"
-            android:clickable="@{viewModel.state != State.Workout.INSTANCE}"
+            android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
             app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
@@ -96,10 +96,10 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/start_workout"
             android:paddingVertical="10dp"
-            android:onClick="@{() -> viewModel.startWorkout(context)}"
             android:text="@string/start_title"
             android:textSize="34sp"
-            android:visibility="@{viewModel.state == State.Workout.INSTANCE ? View.GONE : View.VISIBLE}"
+            android:onClick="@{() -> viewModel.startWorkout()}"
+            android:visibility="@{viewModel.state == WorkoutState.Idle.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,8 +123,8 @@
             android:paddingVertical="8dp"
             android:textSize="24sp"
             android:text="@string/break_title"
-            android:onClick="@{() -> viewModel.brakeWorkout(context)}"
-            android:visibility="@{viewModel.state == State.Workout.INSTANCE ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewModel.brakeWorkout()}"
+            android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
             app:layout_constraintEnd_toStartOf="@+id/space"
@@ -140,7 +140,7 @@
             android:textSize="24sp"
             android:text="@string/finish_title"
             android:onClick="@{() -> viewModel.finishWorkout(context)}"
-            android:visibility="@{viewModel.state == State.Workout.INSTANCE ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -149,10 +149,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <data>
-        <import type="com.ksv.workoutschedule.State"/>
+        <import type="com.ksv.workoutschedule.util.WorkoutState"/>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.ksv.workoutschedule.MainViewModel" />
+            type="com.ksv.workoutschedule.model.WorkoutViewModel" />
     </data>
 </layout>

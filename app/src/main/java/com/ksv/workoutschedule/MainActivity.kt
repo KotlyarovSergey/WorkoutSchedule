@@ -5,27 +5,27 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.text.StringBuilder
+import com.ksv.workoutschedule.view.HistoryFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var mMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        mMenu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -38,11 +38,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.menu_history -> {
-                item.isVisible = false
-                supportFragmentManager.commit {
-                    replace<HistoryFragment>(binding.fragmentContainer.id)
-                    addToBackStack(MainFragment::javaClass.name)
+//                supportFragmentManager.popBackStack()
+                val fr = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if(fr !is HistoryFragment){
+                    supportFragmentManager.commit {
+                        replace<HistoryFragment>(binding.fragmentContainer.id)
+                        addToBackStack(HistoryFragment::javaClass.name)
+                    }
                 }
+                Log.d("ksvlog", "${supportFragmentManager.backStackEntryCount}")
                 true
             }
 

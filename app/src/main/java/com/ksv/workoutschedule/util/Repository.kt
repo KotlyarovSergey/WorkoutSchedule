@@ -1,4 +1,4 @@
-package com.ksv.workoutschedule
+package com.ksv.workoutschedule.util
 
 import android.content.Context
 import android.content.Context.MODE_APPEND

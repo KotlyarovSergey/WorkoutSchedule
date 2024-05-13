@@ -1,4 +1,4 @@
-package com.ksv.workoutschedule
+package com.ksv.workoutschedule.util
 
 class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
     constructor() : this(PressPlan.FIRST, BarPlan.FIRST) {

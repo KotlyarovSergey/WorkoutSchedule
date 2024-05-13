@@ -18,11 +18,13 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
-            android:name="com.ksv.workoutschedule.MainFragment"
+            android:name="com.ksv.workoutschedule.view.WorkoutFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </androidx.fragment.app.FragmentContainerView>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
+    <data>
+
+
+    </data>
 </layout>
