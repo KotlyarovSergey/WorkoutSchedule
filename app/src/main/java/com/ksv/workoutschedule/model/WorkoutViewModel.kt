@@ -37,36 +37,22 @@ class WorkoutViewModel() : ViewModel() {
             nextWorkoutPlan()
         }
 
-//        _state.value = State.Normal
-//        _state.value = WorkoutState.Idle
     }
 
-//    fun openHistory() {
-//        Log.d("ksvlog", "vm: Open History. State: ${state.value}")
-////        Log.d("ksvlog", "History open. Before: ${state.value}")
-//        _state.value = State.History
-////        Log.d("ksvlog", "History open. After: ${state.value}")
-//    }
-
-//    fun openSettings() {
-//        _state.value = State.Settings
-//    }
-
     fun startWorkout() {
-//        _state.value = State.Workout
         _state.value = WorkoutState.Training
     }
 
     fun finishWorkout(context: Context) {
         val repository = Repository(context)
         repository.saveWorkoutPlan(workoutPlan)
-//        _state.value = State.Normal
+        val stringToHistory = stringToHistory()
+        repository.addTextToHistory(stringToHistory)
         _state.value = WorkoutState.Idle
         nextWorkoutPlan()
     }
 
     fun brakeWorkout() {
-//        _state.value = State.Normal
         _state.value = WorkoutState.Idle
     }
 
@@ -82,6 +68,9 @@ class WorkoutViewModel() : ViewModel() {
         trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.ordinal + 1}"
     }
 
+    private fun stringToHistory():String{
+        return workoutPlan.planToHistory()
+    }
 
     private fun listToNumbericString(list: List<String>): String {
         val builder = StringBuilder()

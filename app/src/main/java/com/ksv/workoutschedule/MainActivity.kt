@@ -6,11 +6,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
 import com.ksv.workoutschedule.view.HistoryFragment
+import com.ksv.workoutschedule.view.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,8 +32,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            // TODO сделать нормально через Навигацию
             R.id.menu_settings -> {
-                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show()
+                val fr = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if(fr !is SettingsFragment){
+                    supportFragmentManager.commit {
+                        replace<SettingsFragment>(binding.fragmentContainer.id)
+                        addToBackStack(SettingsFragment::javaClass.name)
+                    }
+                }
                 true
             }
 

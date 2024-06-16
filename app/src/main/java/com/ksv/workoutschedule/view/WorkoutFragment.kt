@@ -14,9 +14,6 @@ class WorkoutFragment : Fragment() {
     private var _binding: FragmentWorkoutBinding? = null
     private val binding get() = _binding!!
     private val workoutViewModel: WorkoutViewModel by viewModels()
-//    private val mainViewModel: MainViewModel by viewModels(
-//        ownerProducer = {Ma}
-//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +23,6 @@ class WorkoutFragment : Fragment() {
         workoutViewModel.openWorkoutFragment(requireContext())
         binding.viewModel = workoutViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-//        mainViewModel.openWorkoutFragment()
-
-
         return binding.root
     }
 

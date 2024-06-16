@@ -5,6 +5,7 @@ import android.content.Context.MODE_APPEND
 import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import android.widget.Toast
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
@@ -15,6 +16,7 @@ private const val SHARED_PREFS_LAST_PLAN_BAR = "shared_prefs_last_plan_bar"
 private const val SHARED_PREFS_LAST_PLAN_PRESS = "shared_prefs_last_plan_press"
 private const val FILE_WRITE_ERROR_MSG = "Ошибка записи файла истории"
 private const val FILE_READ_ERROR_MSG = "Ошибка чтения файла истории"
+private const val EMPTY_HISTORY_MSG = "Здесь пока пусто"
 
 class Repository(private val context: Context) {
     private val prefs = context.getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
@@ -31,22 +33,44 @@ class Repository(private val context: Context) {
             )
     }
 
-    fun addWorkoutPlanToHistory(data: String) {
+    fun addTextToHistory(textToAdd: String) {
+
+        val textLine = "$textToAdd\n"
         var fos: FileOutputStream? = null
         try {
             fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_APPEND)
 //            fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_PRIVATE)
-            fos.write(data.toByteArray())
+            fos.write(textLine.toByteArray())
+            Log.d("ksvlog", "Add to history: $textToAdd")
         } catch (ex: IOException) {
             Toast.makeText(context, FILE_WRITE_ERROR_MSG, Toast.LENGTH_SHORT).show()
         } finally {
             fos?.close()
         }
+    }
 
-
+    fun clearHistory() {
+        var fos: FileOutputStream? = null
+        try {
+            fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_PRIVATE)
+//            fos.write("".toByteArray())
+            fos.write(0)
+        } catch (ex: IOException) {
+            Toast.makeText(context, FILE_WRITE_ERROR_MSG, Toast.LENGTH_SHORT).show()
+        } finally {
+            fos?.close()
+        }
     }
 
     fun loadHistory(): List<String> {
+//        val filePath = "/$HISTORY_FILE_NAME"
+//        val file = File(filePath)
+        val file = File(context.filesDir.absolutePath, HISTORY_FILE_NAME)
+        if (!file.exists())
+            return listOf(EMPTY_HISTORY_MSG)
+
+
+        Log.d("ksvlog", "History file exist")
         var fin: FileInputStream? = null
         return try {
             fin = context.openFileInput(HISTORY_FILE_NAME)
@@ -61,8 +85,6 @@ class Repository(private val context: Context) {
         } finally {
             fin?.close()
         }
-
-//        return listOf("")
     }
 
 
