@@ -1,12 +1,17 @@
 package com.ksv.workoutschedule.model
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.ksv.workoutschedule.util.Repository
+import com.ksv.workoutschedule.data.Repository
+import com.ksv.workoutschedule.entity.HistoryItem
 import com.ksv.workoutschedule.util.WorkoutPlan
 import com.ksv.workoutschedule.util.WorkoutState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Locale
 
 class WorkoutViewModel() : ViewModel() {
 //    private val _state = MutableStateFlow<State>(State.Normal)
@@ -47,7 +52,17 @@ class WorkoutViewModel() : ViewModel() {
         val repository = Repository(context)
         repository.saveWorkoutPlan(workoutPlan)
         val stringToHistory = stringToHistory()
-        repository.addTextToHistory(stringToHistory)
+
+//        repository.addTextToHistory(stringToHistory)
+        val mills = System.currentTimeMillis()
+        val pressEx =  "p: ${workoutPlan.press.ordinal + 1}"
+        val barEx = workoutPlan.bar.name
+        val duration = (50..65).random() * 60L
+        val hi = HistoryItem(mills, pressEx, barEx, duration)
+        repository.addItemToHistory(hi)
+//        Log.d("ksvlog", "$hi")
+
+
         _state.value = WorkoutState.Idle
         nextWorkoutPlan()
     }
@@ -80,10 +95,9 @@ class WorkoutViewModel() : ViewModel() {
         if (builder.isNotEmpty())
             builder.setLength(builder.length - 1)
         return builder.toString()
-
     }
 
     companion object {
-        const val PLAN_NAME_PREFIX = "Группа упражнений №"
+        private const val PLAN_NAME_PREFIX = "Группа упражнений №"
     }
 }

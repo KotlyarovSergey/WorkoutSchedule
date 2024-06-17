@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
-import com.ksv.workoutschedule.util.Repository
+import com.ksv.workoutschedule.data.Repository
 
 class HistoryFragment : Fragment() {
 //    private val mainViewModel: MainViewModel by viewModels()
@@ -17,14 +16,13 @@ class HistoryFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHistoryBinding.inflate(inflater)
 
         val historyList = loadHistoryList()
         showHistoryList(historyList)
 
         return binding.root
-//        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
     override fun onDestroy() {
