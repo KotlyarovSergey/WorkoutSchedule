@@ -3,7 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#C6C3A7</color>
+    <color name="date_text">#DCD8BB</color>
     <color name="back_next">#DCD8BA</color>
+    <color name="start_workout">#0D47A1</color>
+    <color name="finish_workout">#1B5E20</color>
+    <color name="break_workout">#B71C1C</color>
     <color name="grey_text">#5B5F67</color>
     <color name="deep_dark_blue_text">#080C35</color>
 

@@ -1,35 +1,19 @@
 <resources>
-    <string name="app_name">WorkoutSchedule</string>
+    <!--    <string name="app_name">WorkoutSchedule</string>-->
+    <string name="app_name">План тренеровок</string>
+
+    <string name="action_settings">Настройки</string>
+
     <string name="date_default">23.03.2024</string>
     <string name="plan_name_prefix">План тренировок №</string>
     <string name="plan_default">Маятник, Ситап, Косые скручивания, Книжка, Скручивания с поворотом</string>
-    <string name="back">back</string>
+    <string name="previous">previous</string>
     <string name="next">next</string>
     <string name="start_title">Старт</string>
     <string name="break_title">Прервать</string>
     <string name="finish_title">Закончить</string>
-    <string name="wide_catch">6. Подтягивания широким хватом</string>
-    <string name="norm_catch">Нормальный хват</string>
 
-    <string-array name="plan_one">
-        <item>1. Маятник</item>
-        <item>2. Ситап</item>
-        <item>3. Косые скручивания</item>
-        <item>4. Книжка</item>
-        <item>5. Скручивания с поворотом</item>
-    </string-array>
-    <string-array name="plan_two">
-        <item>Сотня</item>
-        <item>Скамья</item>
-        <item>Велосипед</item>
-        <item>Планка</item>
-        <item>Твист</item>
-    </string-array>
-    <string-array name="plan_three">
-        <item>Маятник</item>
-        <item>Косые скручивания</item>
-        <item>Скамья</item>
-        <item>Планка</item>
-        <item>Сотня</item>
-    </string-array>
+    <string name="setting_fragment_blank">Здесь будут настройки</string>
+    <string name="menu_history">История</string>
+
 </resources>
