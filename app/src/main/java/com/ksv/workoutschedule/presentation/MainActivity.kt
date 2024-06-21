@@ -1,16 +1,14 @@
-package com.ksv.workoutschedule
+package com.ksv.workoutschedule.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
-import com.ksv.workoutschedule.view.HistoryFragment
-import com.ksv.workoutschedule.view.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

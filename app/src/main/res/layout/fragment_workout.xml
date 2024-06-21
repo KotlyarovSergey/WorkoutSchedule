@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".view.WorkoutFragment">
+        tools:context=".presentation.WorkoutFragment">
 
         <TextView
             android:id="@+id/tvDate"
@@ -149,10 +149,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <data>
-        <import type="com.ksv.workoutschedule.util.WorkoutState"/>
+        <import type="com.ksv.workoutschedule.presentation.WorkoutState"/>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.ksv.workoutschedule.model.WorkoutViewModel" />
+            type="com.ksv.workoutschedule.presentation.WorkoutViewModel" />
     </data>
 </layout>

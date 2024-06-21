@@ -1,4 +1,4 @@
-package com.ksv.workoutschedule.view
+package com.ksv.workoutschedule.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

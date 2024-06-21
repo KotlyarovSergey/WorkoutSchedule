@@ -1,12 +1,12 @@
-package com.ksv.workoutschedule.view
+package com.ksv.workoutschedule.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
-import com.ksv.workoutschedule.data.Repository
 
 class HistoryFragment : Fragment() {
 //    private val mainViewModel: MainViewModel by viewModels()
@@ -18,11 +18,14 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val historyList = loadHistoryList()
         showHistoryList(historyList)
-
-        return binding.root
     }
 
     override fun onDestroy() {
@@ -31,7 +34,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun loadHistoryList(): List<String> {
-        val repo = Repository(requireContext())
+        val repo = HistoryRepository(requireContext())
         return repo.loadHistory()
     }
 
@@ -42,5 +45,7 @@ class HistoryFragment : Fragment() {
             binding.historyEdittext.append("\n")
         }
     }
+
+    private fun historyItemTo(){}
 
 }

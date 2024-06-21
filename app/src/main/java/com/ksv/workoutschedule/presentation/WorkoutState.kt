@@ -1,4 +1,4 @@
-package com.ksv.workoutschedule.util
+package com.ksv.workoutschedule.presentation
 
 sealed class WorkoutState {
     data object Idle: WorkoutState()

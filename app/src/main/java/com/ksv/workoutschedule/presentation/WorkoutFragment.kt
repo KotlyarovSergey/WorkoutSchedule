@@ -1,13 +1,11 @@
-package com.ksv.workoutschedule.view
+package com.ksv.workoutschedule.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.ksv.workoutschedule.model.WorkoutViewModel
 import com.ksv.workoutschedule.databinding.FragmentWorkoutBinding
 
 class WorkoutFragment : Fragment() {

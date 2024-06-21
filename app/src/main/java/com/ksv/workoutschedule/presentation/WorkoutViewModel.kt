@@ -1,20 +1,15 @@
-package com.ksv.workoutschedule.model
+package com.ksv.workoutschedule.presentation
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.ksv.workoutschedule.data.Repository
+import com.ksv.workoutschedule.data.HistoryRepository
+import com.ksv.workoutschedule.data.WorkoutRepository
 import com.ksv.workoutschedule.entity.HistoryItem
-import com.ksv.workoutschedule.util.WorkoutPlan
-import com.ksv.workoutschedule.util.WorkoutState
+import com.ksv.workoutschedule.domain.WorkoutPlan
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.Locale
 
 class WorkoutViewModel() : ViewModel() {
-//    private val _state = MutableStateFlow<State>(State.Normal)
     private val _state = MutableStateFlow<WorkoutState>(WorkoutState.Idle)
     val state = _state.asStateFlow()
     val exercisesList = MutableStateFlow("")
@@ -24,20 +19,19 @@ class WorkoutViewModel() : ViewModel() {
     private var workoutPlan = WorkoutPlan()
 
 
-    fun loadSavedData(context: Context) {
-        if(needToLoadData) {
-            val repository = Repository(context)
-            workoutPlan = repository.loadWorkoutPlan()
-            needToLoadData = false
-            nextWorkoutPlan()
-        }
-    }
+//    fun loadSavedData(context: Context) {
+//        if(needToLoadData) {
+//            val workoutRepository = WorkoutRepository(context)
+//            workoutPlan = workoutRepository.loadWorkoutPlan()
+//            needToLoadData = false
+//            nextWorkoutPlan()
+//        }
+//    }
 
     fun openWorkoutFragment(context: Context){
-//        Log.d("ksvlog", "WVM: Open MainFragment. State: ${state.value}")
         if(needToLoadData) {
-            val repository = Repository(context)
-            workoutPlan = repository.loadWorkoutPlan()
+            val workoutRepository = WorkoutRepository(context)
+            workoutPlan = workoutRepository.loadWorkoutPlan()
             needToLoadData = false
             nextWorkoutPlan()
         }
@@ -49,23 +43,38 @@ class WorkoutViewModel() : ViewModel() {
     }
 
     fun finishWorkout(context: Context) {
-        val repository = Repository(context)
-        repository.saveWorkoutPlan(workoutPlan)
+        // 1. сохранить упраженение
+        saveCurrentWorkout(context)
+
+        // 2. добавить в историю
+        addToHistory(context)
+
+        // 3. закончить упражнение
+        _state.value = WorkoutState.Idle
+
+        // 3. перейти к следующему
+        nextWorkoutPlan()
+    }
+
+    private fun saveCurrentWorkout(context: Context){
+        val workoutRepository = WorkoutRepository(context)
+        workoutRepository.saveWorkoutPlan(workoutPlan)
+    }
+
+    private fun addToHistory(context: Context){
         val stringToHistory = stringToHistory()
 
-//        repository.addTextToHistory(stringToHistory)
+        val hisRepository = HistoryRepository(context)
         val mills = System.currentTimeMillis()
         val pressEx =  "p: ${workoutPlan.press.ordinal + 1}"
         val barEx = workoutPlan.bar.name
         val duration = (50..65).random() * 60L
         val hi = HistoryItem(mills, pressEx, barEx, duration)
-        repository.addItemToHistory(hi)
+        hisRepository.addItemToHistory(hi)
 //        Log.d("ksvlog", "$hi")
-
-
-        _state.value = WorkoutState.Idle
-        nextWorkoutPlan()
     }
+
+
 
     fun brakeWorkout() {
         _state.value = WorkoutState.Idle
