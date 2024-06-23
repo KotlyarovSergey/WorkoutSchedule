@@ -14,15 +14,8 @@ class HistoryRepository(context: Context) {
         fileDataSource.clearData()
     }
 
-    fun loadHistory(): List<String> {
-        val result = mutableListOf<String>()
-
-        val historyList = fileDataSource.getData()
-        historyList.forEach{
-            result.add(it.toString())
-        }
-        return result
+    fun loadHistory(): List<HistoryItem> {
+        return fileDataSource.getData()
     }
-
 
 }

@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import android.widget.Toast
 import com.ksv.workoutschedule.entity.HistoryItem
+import com.ksv.workoutschedule.entity.WorkoutDate
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -76,11 +77,16 @@ class FileDataSource(private val context: Context) {
 
     private fun historyItemToString(historyItem: HistoryItem): String {
         val stringBuilder = StringBuilder()
-        stringBuilder.append(historyItem.date)
+//        stringBuilder.append(historyItem.workoutDate)
+        stringBuilder.append(historyItem.workoutDate.year)
         stringBuilder.append("\t")
-        stringBuilder.append(historyItem.pressExercise)
+        stringBuilder.append(historyItem.workoutDate.month)
         stringBuilder.append("\t")
-        stringBuilder.append(historyItem.barExercise)
+        stringBuilder.append(historyItem.workoutDate.day)
+        stringBuilder.append("\t")
+        stringBuilder.append(historyItem.pressPlanNum)
+        stringBuilder.append("\t")
+        stringBuilder.append(historyItem.barPlanNum)
         stringBuilder.append("\t")
         stringBuilder.append(historyItem.duration)
 
@@ -89,22 +95,25 @@ class FileDataSource(private val context: Context) {
 
     private fun historyItemFromString(data: String): HistoryItem {
         val p = data.split("\t")
-        if (p.size != 4)
-            return HistoryItem(0, "", "", 0)
+        if (p.size != HISTORY_ITEM_FIELDS_COUNT)
+            return HistoryItem(WorkoutDate(0,0,0), 0, 0, 0)
 
         return try {
-            val date = p[0].toLong()
-            val pressExercise = p[1]
-            val barExercise = p[2]
-            val duration = p[3].toLong()
-            HistoryItem(date, pressExercise, barExercise, duration)
+            val year = p[0].toInt()
+            val month = p[1].toInt()
+            val day = p[2].toInt()
+            val pressExercise = p[3].toInt()
+            val barExercise = p[4].toInt()
+            val duration = p[5].toLong()
+            HistoryItem(WorkoutDate(year, month, day), pressExercise, barExercise, duration)
         } catch (exception: Exception){
-            HistoryItem(0, "", "", 0)
+            HistoryItem(WorkoutDate(0,0,0), 0, 0, 0)
         }
     }
 
     companion object {
         private const val HISTORY_FILE_NAME = "history.txt"
+        private const val HISTORY_ITEM_FIELDS_COUNT = 6
         private const val FILE_WRITE_ERROR_MSG = "Ошибка записи файла истории"
         private const val FILE_READ_ERROR_MSG = "Ошибка чтения файла истории"
     }

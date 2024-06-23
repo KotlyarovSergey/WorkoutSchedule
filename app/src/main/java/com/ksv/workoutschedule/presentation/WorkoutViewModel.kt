@@ -6,8 +6,12 @@ import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.data.WorkoutRepository
 import com.ksv.workoutschedule.entity.HistoryItem
 import com.ksv.workoutschedule.domain.WorkoutPlan
+import com.ksv.workoutschedule.entity.WorkoutDate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class WorkoutViewModel() : ViewModel() {
     private val _state = MutableStateFlow<WorkoutState>(WorkoutState.Idle)
@@ -17,16 +21,7 @@ class WorkoutViewModel() : ViewModel() {
 
     private var needToLoadData = true
     private var workoutPlan = WorkoutPlan()
-
-
-//    fun loadSavedData(context: Context) {
-//        if(needToLoadData) {
-//            val workoutRepository = WorkoutRepository(context)
-//            workoutPlan = workoutRepository.loadWorkoutPlan()
-//            needToLoadData = false
-//            nextWorkoutPlan()
-//        }
-//    }
+    private var startTime = LocalDateTime.now()
 
     fun openWorkoutFragment(context: Context){
         if(needToLoadData) {
@@ -35,24 +30,17 @@ class WorkoutViewModel() : ViewModel() {
             needToLoadData = false
             nextWorkoutPlan()
         }
-
     }
 
     fun startWorkout() {
+        startTime = LocalDateTime.now()
         _state.value = WorkoutState.Training
     }
 
     fun finishWorkout(context: Context) {
-        // 1. сохранить упраженение
         saveCurrentWorkout(context)
-
-        // 2. добавить в историю
         addToHistory(context)
-
-        // 3. закончить упражнение
         _state.value = WorkoutState.Idle
-
-        // 3. перейти к следующему
         nextWorkoutPlan()
     }
 
@@ -62,16 +50,15 @@ class WorkoutViewModel() : ViewModel() {
     }
 
     private fun addToHistory(context: Context){
-        val stringToHistory = stringToHistory()
-
         val hisRepository = HistoryRepository(context)
-        val mills = System.currentTimeMillis()
-        val pressEx =  "p: ${workoutPlan.press.ordinal + 1}"
-        val barEx = workoutPlan.bar.name
-        val duration = (50..65).random() * 60L
-        val hi = HistoryItem(mills, pressEx, barEx, duration)
-        hisRepository.addItemToHistory(hi)
-//        Log.d("ksvlog", "$hi")
+        val localDate = LocalDate.now()
+        val workoutDate = WorkoutDate(localDate.year, localDate.monthValue, localDate.dayOfMonth)
+        val pressExNum =  workoutPlan.press.ordinal
+        val barExNum = workoutPlan.bar.ordinal
+//        val duration = Duration.between(startTime, LocalDateTime.now()).seconds + (3000..4200).random()
+        val duration = Duration.between(startTime, LocalDateTime.now()).seconds
+
+        hisRepository.addItemToHistory(HistoryItem(workoutDate, pressExNum, barExNum, duration))
     }
 
 
@@ -83,17 +70,13 @@ class WorkoutViewModel() : ViewModel() {
     fun nextWorkoutPlan() {
         workoutPlan.next()
         exercisesList.value = listToNumbericString(workoutPlan.exercises)
-        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.ordinal + 1}"
+        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
     }
 
     fun previousWorkoutPlan() {
         workoutPlan.previous()
         exercisesList.value = listToNumbericString(workoutPlan.exercises)
-        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.ordinal + 1}"
-    }
-
-    private fun stringToHistory():String{
-        return workoutPlan.planToHistory()
+        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
     }
 
     private fun listToNumbericString(list: List<String>): String {

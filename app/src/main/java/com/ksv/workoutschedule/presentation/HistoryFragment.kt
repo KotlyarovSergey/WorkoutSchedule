@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
+import com.ksv.workoutschedule.domain.WorkoutPlan
+import com.ksv.workoutschedule.entity.HistoryItem
+import java.time.Duration
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HistoryFragment : Fragment() {
-//    private val mainViewModel: MainViewModel by viewModels()
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
@@ -33,19 +37,42 @@ class HistoryFragment : Fragment() {
         _binding = null
     }
 
-    private fun loadHistoryList(): List<String> {
+    private fun loadHistoryList(): List<HistoryItem> {
         val repo = HistoryRepository(requireContext())
         return repo.loadHistory()
     }
 
-    private fun showHistoryList(list: List<String>)
-    {
-        for (line in list) {
-            binding.historyEdittext.append(line)
+    private fun showHistoryList(historyList: List<HistoryItem>) {
+        for (historyItem in historyList) {
+            binding.historyEdittext.append(historyItemToString(historyItem))
             binding.historyEdittext.append("\n")
         }
     }
 
-    private fun historyItemTo(){}
+    private fun historyItemToString(historyItem: HistoryItem): String {
+        val date = with(historyItem.workoutDate) { LocalDate.of(year, month, day) }
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateFormatted = date.format(formatter)
+
+        val pressPlan = WorkoutPlan.Plans.PressPlan.entries[historyItem.pressPlanNum]
+        val press = pressPlan.number
+        val barPlan = WorkoutPlan.Plans.BarPlan.entries[historyItem.barPlanNum]
+        val bar = barPlan.type
+
+        val duration = Duration.ofSeconds(historyItem.duration)
+        val hours = duration.toHours().toString()
+        val minutes = addZero((duration.toMinutes() % 60).toInt())
+        val seconds = addZero((duration.seconds % 60).toInt())
+        val durationStr = "$hours:$minutes:$seconds"
+
+        return "$dateFormatted: [$press-$bar] - $durationStr"
+    }
+
+    private fun addZero(number: Int): String {
+        return if (number < 10)
+            "0$number"
+        else
+            number.toString()
+    }
 
 }

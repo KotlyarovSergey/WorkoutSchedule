@@ -1,8 +1,14 @@
 package com.ksv.workoutschedule.entity
 
 data class HistoryItem(
-    val date: Long,
-    val pressExercise: String,
-    val barExercise: String,
+    val workoutDate: WorkoutDate,
+    val pressPlanNum: Int,
+    val barPlanNum: Int,
     val duration: Long
+)
+
+data class WorkoutDate(
+    val year: Int,
+    val month: Int,
+    val day: Int
 )
