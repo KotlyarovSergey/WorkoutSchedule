@@ -64,7 +64,7 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
             FIRST(1), SECOND(2), THIRD(3)
         }
         enum class BarPlan(val type: String) {
-            NORMAL("у"), BROAD("ш")
+            NORMAL("н"), BROAD("ш")
         }
 
         private val pressPlan1 =

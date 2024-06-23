@@ -18,7 +18,7 @@ class WorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWorkoutBinding.inflate(inflater)
-        workoutViewModel.openWorkoutFragment(requireContext())
+        workoutViewModel.openWorkoutFragment()
         binding.viewModel = workoutViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

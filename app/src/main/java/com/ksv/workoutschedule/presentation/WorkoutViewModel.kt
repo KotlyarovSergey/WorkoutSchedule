@@ -1,7 +1,8 @@
 package com.ksv.workoutschedule.presentation
 
+import android.app.Application
 import android.content.Context
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.data.WorkoutRepository
 import com.ksv.workoutschedule.entity.HistoryItem
@@ -13,7 +14,8 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class WorkoutViewModel() : ViewModel() {
+class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
     private val _state = MutableStateFlow<WorkoutState>(WorkoutState.Idle)
     val state = _state.asStateFlow()
     val exercisesList = MutableStateFlow("")
@@ -23,7 +25,7 @@ class WorkoutViewModel() : ViewModel() {
     private var workoutPlan = WorkoutPlan()
     private var startTime = LocalDateTime.now()
 
-    fun openWorkoutFragment(context: Context){
+    fun openWorkoutFragment(){
         if(needToLoadData) {
             val workoutRepository = WorkoutRepository(context)
             workoutPlan = workoutRepository.loadWorkoutPlan()
@@ -37,19 +39,19 @@ class WorkoutViewModel() : ViewModel() {
         _state.value = WorkoutState.Training
     }
 
-    fun finishWorkout(context: Context) {
-        saveCurrentWorkout(context)
-        addToHistory(context)
+    fun finishWorkout() {
+        saveCurrentWorkout()
+        addToHistory()
         _state.value = WorkoutState.Idle
         nextWorkoutPlan()
     }
 
-    private fun saveCurrentWorkout(context: Context){
+    private fun saveCurrentWorkout(){
         val workoutRepository = WorkoutRepository(context)
         workoutRepository.saveWorkoutPlan(workoutPlan)
     }
 
-    private fun addToHistory(context: Context){
+    private fun addToHistory(){
         val hisRepository = HistoryRepository(context)
         val localDate = LocalDate.now()
         val workoutDate = WorkoutDate(localDate.year, localDate.monthValue, localDate.dayOfMonth)

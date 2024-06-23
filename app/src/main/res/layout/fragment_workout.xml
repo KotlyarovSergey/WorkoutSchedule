@@ -139,7 +139,7 @@
             android:paddingVertical="8dp"
             android:textSize="24sp"
             android:text="@string/finish_title"
-            android:onClick="@{() -> viewModel.finishWorkout(context)}"
+            android:onClick="@{() -> viewModel.finishWorkout()}"
             android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
