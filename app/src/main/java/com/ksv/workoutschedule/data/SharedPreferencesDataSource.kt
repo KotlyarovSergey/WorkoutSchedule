@@ -2,6 +2,7 @@ package com.ksv.workoutschedule.data
 
 import android.content.Context
 import com.ksv.workoutschedule.domain.WorkoutPlan
+import java.lang.IllegalArgumentException
 
 class SharedPreferencesDataSource(context: Context) {
     private val prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
@@ -19,14 +20,22 @@ class SharedPreferencesDataSource(context: Context) {
         val pressPlanName = prefs.getString(SHARED_PREFS_LAST_PLAN_PRESS, null)
 
         val barPlan = if (barPlanName != null)
-            WorkoutPlan.Plans.BarPlan.valueOf(barPlanName)
+            try {
+                WorkoutPlan.Plans.BarPlan.valueOf(barPlanName)
+            } catch (ex: IllegalArgumentException){
+                WorkoutPlan.Plans.BarPlan.BROAD
+            }
         else
-            WorkoutPlan.Plans.BarPlan.FIRST
+            WorkoutPlan.Plans.BarPlan.BROAD
 
         val pressPlan = if (pressPlanName != null)
-            WorkoutPlan.Plans.PressPlan.valueOf(pressPlanName)
+            try {
+                WorkoutPlan.Plans.PressPlan.valueOf(pressPlanName)
+            }catch (ex: IllegalArgumentException){
+                WorkoutPlan.Plans.PressPlan.THIRD
+            }
         else
-            WorkoutPlan.Plans.PressPlan.FIRST
+            WorkoutPlan.Plans.PressPlan.THIRD
 
         return WorkoutPlan(pressPlan, barPlan)
     }

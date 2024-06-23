@@ -14,8 +14,8 @@ class WorkoutRepository(private val context: Context) {
         val sharedPreferencesDataSource = SharedPreferencesDataSource(context)
         return sharedPreferencesDataSource.loadWorkoutPlanFromSharedPreference()
             ?: WorkoutPlan(
-                WorkoutPlan.Plans.PressPlan.FIRST,
-                WorkoutPlan.Plans.BarPlan.FIRST
+                WorkoutPlan.Plans.PressPlan.THIRD,
+                WorkoutPlan.Plans.BarPlan.BROAD
             )
     }
 }
