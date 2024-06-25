@@ -59,13 +59,13 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
 
     fun nextWorkoutPlan() {
         workoutPlan.next()
-        exercisesList.value = listToNumbericString(workoutPlan.exercises)
+        exercisesList.value = listToNumberedString(workoutPlan.exercises)
         trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
     }
 
     fun previousWorkoutPlan() {
         workoutPlan.previous()
-        exercisesList.value = listToNumbericString(workoutPlan.exercises)
+        exercisesList.value = listToNumberedString(workoutPlan.exercises)
         trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
     }
 
@@ -91,12 +91,13 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         val barExNum = workoutPlan.bar.ordinal
 //        val duration = Duration.between(startTime, LocalDateTime.now()).seconds + (3000..4200).random()
         val duration = Duration.between(startTime, LocalDateTime.now()).seconds
-
-        hisRepository.addItemToHistory(HistoryItem(workoutDate, pressExNum, barExNum, duration))
+        viewModelScope.launch {
+            hisRepository.addItemToHistory(HistoryItem(workoutDate, pressExNum, barExNum, duration))
+        }
     }
 
 
-    private fun listToNumbericString(list: List<String>): String {
+    private fun listToNumberedString(list: List<String>): String {
         val builder = StringBuilder()
         for ((i, e) in list.withIndex()) {
             builder.append("${i + 1}. $e\n")
