@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
 import com.ksv.workoutschedule.domain.WorkoutPlan
 import com.ksv.workoutschedule.entity.HistoryItem
-import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -84,6 +82,6 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
-        private val VOID_HISTORY_MSG = "Здесь пока пусто"
+        private const val VOID_HISTORY_MSG = "Здесь пока пусто"
     }
 }

@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:visibility="invisible"
-            android:background="#C0CAC8"
+            android:background="@color/background"
             app:cardCornerRadius="5dp">
 
             <ScrollView

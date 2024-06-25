@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -10,83 +9,86 @@
         android:background="@color/background"
         tools:context=".presentation.WorkoutFragment">
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_margin"
-            android:paddingVertical="8dp"
-            android:text="@string/date_default"
-            android:textAlignment="center"
-            android:textColor="#181F98"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tvPlanNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:textAlignment="center"
-            android:text="@{viewModel.trainingPlan}"
-            android:textColor="@color/black"
-            android:textSize="28sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
-
-        <TextView
-            android:id="@+id/tvExercisesGroup"
-            style="@style/text_veiw"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="24dp"
-            android:ellipsize="end"
-            android:paddingTop="8dp"
-            android:textAlignment="textStart"
-            android:text="@{viewModel.exercisesList}"
-            android:textColor="#080C35"
-            app:layout_constraintEnd_toStartOf="@+id/btnNext"
-            app:layout_constraintStart_toEndOf="@+id/btnPrevious"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlanNumber" />
-
-        <ImageButton
-            android:id="@+id/btnPrevious"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/background"
-            android:contentDescription="@string/previous"
-            android:onClick="@{() -> viewModel.previousWorkoutPlan()}"
-            android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
-            app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
-            app:srcCompat="@drawable/before"
-            app:tint="@color/design_default_color_primary_dark" />
+            android:orientation="vertical"
+            android:layout_marginVertical="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnBreak"
+            >
 
-        <ImageButton
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/background"
-            android:contentDescription="@string/next"
-            android:onClick="@{() -> viewModel.nextWorkoutPlan()}"
-            android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
-            app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
-            app:srcCompat="@drawable/next"
-            app:tint="@color/design_default_color_primary_dark" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvPlanNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/horizontal_margin"
+                    android:layout_marginTop="16dp"
+                    android:text="@{viewModel.trainingPlan}"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="28sp"
+                    android:textStyle="normal"
+                    tools:text="План тренировок №1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvExercisesGroup"
+                    style="@style/text_veiw"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="24dp"
+                    android:ellipsize="end"
+                    android:paddingTop="8dp"
+                    android:text="@{viewModel.exercisesList}"
+                    android:textAlignment="textStart"
+                    android:textColor="#080C35"
+                    tools:text="@tools:sample/lorem/random"
+                    app:layout_constraintEnd_toStartOf="@+id/btnNext"
+                    app:layout_constraintStart_toEndOf="@+id/btnPrevious"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPlanNumber" />
+
+                <ImageButton
+                    android:id="@+id/btnPrevious"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/background"
+                    android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
+                    android:contentDescription="@string/previous"
+                    android:onClick="@{() -> viewModel.previousWorkoutPlan()}"
+                    android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
+                    app:srcCompat="@drawable/before"
+                    app:tint="@color/design_default_color_primary_dark" />
+
+                <ImageButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/background"
+                    android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
+                    android:contentDescription="@string/next"
+                    android:onClick="@{() -> viewModel.nextWorkoutPlan()}"
+                    android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvExercisesGroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvExercisesGroup"
+                    app:srcCompat="@drawable/next"
+                    app:tint="@color/design_default_color_primary_dark" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
 
         <Button
             android:id="@+id/btnStart"
@@ -95,10 +97,10 @@
             android:layout_marginHorizontal="@dimen/horizontal_margin"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/start_workout"
-            android:paddingVertical="10dp"
-            android:text="@string/start_title"
-            android:textSize="34sp"
             android:onClick="@{() -> viewModel.startWorkout()}"
+            android:paddingVertical="8dp"
+            android:text="@string/start_title"
+            android:textSize="24sp"
             android:visibility="@{viewModel.state == WorkoutState.Idle.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -120,10 +122,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#B71C1C"
-            android:paddingVertical="8dp"
-            android:textSize="24sp"
-            android:text="@string/break_title"
             android:onClick="@{() -> viewModel.brakeWorkout()}"
+            android:paddingVertical="8dp"
+            android:text="@string/break_title"
+            android:textSize="24sp"
             android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
@@ -136,10 +138,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/finish_workout"
-            android:paddingVertical="8dp"
-            android:textSize="24sp"
-            android:text="@string/finish_title"
             android:onClick="@{() -> viewModel.finishWorkout()}"
+            android:paddingVertical="8dp"
+            android:text="@string/finish_title"
+            android:textSize="24sp"
             android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
@@ -148,9 +150,13 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <data>
-        <import type="com.ksv.workoutschedule.presentation.WorkoutState"/>
-        <import type="android.view.View"/>
+
+        <import type="com.ksv.workoutschedule.presentation.WorkoutState" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ksv.workoutschedule.presentation.WorkoutViewModel" />
