@@ -9,10 +9,19 @@
         android:background="#9CB3D8"
         tools:context=".presentation.HistoryFragment">
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
+            android:visibility="invisible"
             android:background="#C0CAC8"
             app:cardCornerRadius="5dp">
 

@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import com.ksv.workoutschedule.entity.HistoryItem
 import com.ksv.workoutschedule.entity.WorkoutDate
+import kotlinx.coroutines.delay
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -32,6 +33,7 @@ class FileDataSource(private val context: Context) {
     }
 
     fun getData(): List<HistoryItem> {
+//            delay(5000)
         val historyItemList = mutableListOf<HistoryItem>()
 
         val file = File(context.filesDir.absolutePath, HISTORY_FILE_NAME)

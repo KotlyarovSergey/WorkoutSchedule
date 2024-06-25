@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
 import com.ksv.workoutschedule.domain.WorkoutPlan
 import com.ksv.workoutschedule.entity.HistoryItem
+import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -30,6 +32,8 @@ class HistoryFragment : Fragment() {
 
         val historyList = loadHistoryList()
         showHistoryList(historyList)
+        binding.progress.visibility = View.INVISIBLE
+        binding.cardHistory.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {
@@ -43,9 +47,13 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showHistoryList(historyList: List<HistoryItem>) {
-        for (historyItem in historyList) {
-            binding.historyEdittext.append(historyItemToString(historyItem))
-            binding.historyEdittext.append("\n")
+        if(historyList.isEmpty()){
+            binding.historyEdittext.text = VOID_HISTORY_MSG
+        } else {
+            for (historyItem in historyList) {
+                binding.historyEdittext.append(historyItemToString(historyItem))
+                binding.historyEdittext.append("\n")
+            }
         }
     }
 
@@ -75,4 +83,7 @@ class HistoryFragment : Fragment() {
             number.toString()
     }
 
+    companion object {
+        private val VOID_HISTORY_MSG = "Здесь пока пусто"
+    }
 }
