@@ -9,6 +9,7 @@ import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
 import com.ksv.workoutschedule.domain.WorkoutPlan
 import com.ksv.workoutschedule.entity.HistoryItem
+import com.ksv.workoutschedule.util.TimeConverter
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -66,19 +67,9 @@ class HistoryFragment : Fragment() {
         val bar = barPlan.type
 
         val duration = Duration.ofSeconds(historyItem.duration)
-        val hours = duration.toHours().toString()
-        val minutes = addZero((duration.toMinutes() % 60).toInt())
-        val seconds = addZero((duration.seconds % 60).toInt())
-        val durationStr = "$hours:$minutes:$seconds"
+        val durationStr = TimeConverter.durationToText(duration)
 
         return "$dateFormatted: [$press-$bar] - $durationStr"
-    }
-
-    private fun addZero(number: Int): String {
-        return if (number < 10)
-            "0$number"
-        else
-            number.toString()
     }
 
     companion object {
