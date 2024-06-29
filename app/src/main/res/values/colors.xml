@@ -10,5 +10,6 @@
     <color name="break_workout">#B71C1C</color>
     <color name="grey_text">#5B5F67</color>
     <color name="deep_dark_blue_text">#080C35</color>
-
+    <color name="green">#00FF00</color>
+    <color name="red">#FF0000</color>
 </resources>

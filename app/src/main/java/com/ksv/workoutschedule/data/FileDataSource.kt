@@ -2,11 +2,9 @@ package com.ksv.workoutschedule.data
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import android.widget.Toast
 import com.ksv.workoutschedule.entity.HistoryItem
 import com.ksv.workoutschedule.entity.WorkoutDate
-import kotlinx.coroutines.delay
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -23,7 +21,6 @@ class FileDataSource(private val context: Context) {
         try {
             fos = context.openFileOutput(HISTORY_FILE_NAME, Context.MODE_APPEND)
             fos.write(textLine.toByteArray())
-            Log.d("ksvlog", "Add to history: $textLine")
         } catch (ex: IOException) {
             Toast.makeText(context, FILE_WRITE_ERROR_MSG, Toast.LENGTH_SHORT).show()
         } finally {
@@ -68,7 +65,7 @@ class FileDataSource(private val context: Context) {
         var fos: FileOutputStream? = null
         try {
             fos = context.openFileOutput(HISTORY_FILE_NAME, MODE_PRIVATE)
-            fos.write(0)
+            fos.write("".toByteArray())
 //            Log.d("ksvlog", "History cleared")
         } catch (ex: IOException) {
             Toast.makeText(context, FILE_WRITE_ERROR_MSG, Toast.LENGTH_SHORT).show()
@@ -98,7 +95,7 @@ class FileDataSource(private val context: Context) {
     private fun historyItemFromString(data: String): HistoryItem {
         val p = data.split("\t")
         if (p.size != HISTORY_ITEM_FIELDS_COUNT)
-            return HistoryItem(WorkoutDate(0,0,0), 0, 0, 0)
+            return HistoryItem(WorkoutDate(0,1,1), 0, 0, 0)
 
         return try {
             val year = p[0].toInt()

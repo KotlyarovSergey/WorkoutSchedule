@@ -13,7 +13,11 @@
     <string name="break_title">Прервать</string>
     <string name="finish_title">Закончить</string>
 
-    <string name="setting_fragment_blank">Здесь будут настройки</string>
+    <string name="history_card_caption">История</string>
     <string name="menu_history">История</string>
+    <string name="clear_history_switch">Очистить историю</string>
+    <string name="default_question">Вы уверены в своём выборе?</string>
+    <string name="yes_answer_text">Да</string>
+    <string name="no_answer_text">Нет</string>
 
 </resources>
