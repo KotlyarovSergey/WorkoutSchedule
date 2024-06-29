@@ -19,29 +19,31 @@ class WorkoutPlan(pressPlan: PressPlan, barExercise: BarPlan) {
 
 
     fun next(): List<String> {
-        press = when (press) {
-            PressPlan.FIRST -> PressPlan.SECOND
-            PressPlan.SECOND -> PressPlan.THIRD
-            PressPlan.THIRD -> PressPlan.FIRST
-        }
-        bar = when (bar) {
-            BarPlan.NORMAL -> BarPlan.BROAD
-            BarPlan.BROAD -> BarPlan.NORMAL
-        }
+        var ind = press.ordinal
+        var size = PressPlan.entries.size
+        var next = (ind + 1) % size
+        press = PressPlan.entries[next]
+
+        ind = bar.ordinal
+        size = BarPlan.entries.size
+        next = (ind + 1) % size
+        bar = BarPlan.entries[next]
+
         makeListOfExercise()
         return exercises
     }
 
     fun previous(): List<String> {
-        press = when (press) {
-            PressPlan.FIRST -> PressPlan.THIRD
-            PressPlan.SECOND -> PressPlan.FIRST
-            PressPlan.THIRD -> PressPlan.SECOND
-        }
-        bar = when (bar) {
-            BarPlan.NORMAL -> BarPlan.BROAD
-            BarPlan.BROAD -> BarPlan.NORMAL
-        }
+        var ind = press.ordinal
+        var size = PressPlan.entries.size
+        var prev = (ind + size - 1) % size
+        press = PressPlan.entries[prev]
+
+        ind = bar.ordinal
+        size = BarPlan.entries.size
+        prev = (ind + size - 1) % size
+        bar = BarPlan.entries[prev]
+
         makeListOfExercise()
         return exercises
     }
