@@ -1,9 +1,11 @@
 package com.ksv.workoutschedule.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentHistoryBinding
@@ -28,6 +30,8 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity).supportActionBar?.title = TITLE
 
         val historyList = loadHistoryList()
         showHistoryList(historyList)
@@ -73,6 +77,7 @@ class HistoryFragment : Fragment() {
     }
 
     companion object {
+        private const val TITLE = "История трерировок"
         private const val VOID_HISTORY_MSG = "Здесь пока пусто"
     }
 }
