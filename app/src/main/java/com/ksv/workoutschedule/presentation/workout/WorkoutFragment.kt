@@ -1,4 +1,4 @@
-package com.ksv.workoutschedule.presentation
+package com.ksv.workoutschedule.presentation.workout
 
 import android.os.Bundle
 import android.view.LayoutInflater

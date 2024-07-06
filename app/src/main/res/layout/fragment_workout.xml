@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".presentation.WorkoutFragment">
+        tools:context=".presentation.workout.WorkoutFragment">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -181,6 +181,6 @@
 
         <variable
             name="viewModel"
-            type="com.ksv.workoutschedule.presentation.WorkoutViewModel" />
+            type="com.ksv.workoutschedule.presentation.workout.WorkoutViewModel" />
     </data>
 </layout>
