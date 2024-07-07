@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.databinding.FragmentGreetingBinding
 import com.ksv.workoutschedule.presentation.workout.WorkoutActivity
@@ -29,9 +30,18 @@ class GreetingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = TITLE
+
         binding.workoutButton.setOnClickListener {
             val intent = Intent(requireActivity(), WorkoutActivity::class.java)
             startActivity(intent)
         }
+    }
+
+
+
+
+    companion object {
+        private const val TITLE = "План тренировок"
     }
 }

@@ -19,7 +19,8 @@
     <string name="default_question">Вы уверены в своём выборе?</string>
     <string name="yes_answer_text">Да</string>
     <string name="no_answer_text">Нет</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="to_workout">Тренировка</string>
+    <string name="greeting_quote">Не останавливайся, когда ты устал. Останавливайся, когда закончишь.</string>
 
 </resources>
