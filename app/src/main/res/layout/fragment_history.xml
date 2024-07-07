@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#9CB3D8"
-        tools:context=".presentation.HistoryFragment">
+        tools:context=".presentation.main.HistoryFragment">
 
         <ProgressBar
             android:id="@+id/progress"

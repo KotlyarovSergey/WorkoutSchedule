@@ -1,18 +1,14 @@
-package com.ksv.workoutschedule.presentation
+package com.ksv.workoutschedule.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.lifecycle.lifecycleScope
 import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.databinding.ActivityMainBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

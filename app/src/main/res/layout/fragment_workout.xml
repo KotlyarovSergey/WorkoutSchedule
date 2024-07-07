@@ -175,7 +175,7 @@
 
     <data>
 
-        <import type="com.ksv.workoutschedule.presentation.WorkoutState" />
+        <import type="com.ksv.workoutschedule.presentation.main.WorkoutState" />
 
         <import type="android.view.View" />
 

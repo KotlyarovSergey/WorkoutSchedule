@@ -8,7 +8,7 @@ import com.ksv.workoutschedule.data.WorkoutRepository
 import com.ksv.workoutschedule.entity.HistoryItem
 import com.ksv.workoutschedule.domain.WorkoutPlan
 import com.ksv.workoutschedule.entity.WorkoutDate
-import com.ksv.workoutschedule.presentation.WorkoutState
+import com.ksv.workoutschedule.presentation.main.WorkoutState
 import com.ksv.workoutschedule.util.TimeConverter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

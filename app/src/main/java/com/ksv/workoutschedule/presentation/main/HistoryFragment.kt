@@ -1,7 +1,6 @@
-package com.ksv.workoutschedule.presentation
+package com.ksv.workoutschedule.presentation.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
