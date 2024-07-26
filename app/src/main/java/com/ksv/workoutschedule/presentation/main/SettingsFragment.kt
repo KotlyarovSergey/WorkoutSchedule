@@ -57,9 +57,11 @@ class SettingsFragment : Fragment() {
 
         binding.clearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
-                confirmType = ConfirmType.CLEAR_HISTORY
-                setEnable(false)
-                binding.confirmCard.visibility = View.VISIBLE
+//                confirmType = ConfirmType.CLEAR_HISTORY
+//                setEnable(false)
+//                binding.confirmCard.visibility = View.VISIBLE
+
+
             }
         }
 
