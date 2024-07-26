@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="text_veiw">
+    <style name="text_view">
         <item name="android:textSize">26sp</item>
         <item name="fontFamily">@font/amiko_semibold</item>
         <item name="color">@color/deep_dark_blue_text</item>

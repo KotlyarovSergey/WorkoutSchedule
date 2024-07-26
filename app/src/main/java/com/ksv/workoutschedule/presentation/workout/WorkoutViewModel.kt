@@ -42,7 +42,29 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun startWorkoutClick() {
+    fun nextWorkoutPlanClick() {
+        workoutPlan.next()
+        displayCurrentPlanOnUI()
+    }
+
+    fun previousWorkoutPlanClick() {
+        workoutPlan.previous()
+        displayCurrentPlanOnUI()
+    }
+
+    fun startFinishWorkoutClick(context: Context){
+        when(state.value){
+            WorkoutState.Idle -> {
+                startWorkout()
+            }
+            WorkoutState.Training -> {
+                showAlertDialog(context)
+            }
+        }
+    }
+
+
+    private fun startWorkout() {
         startTime = LocalDateTime.now()
         _state.value = WorkoutState.Training
         viewModelScope.launch {
@@ -50,7 +72,7 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun finishWorkoutClick(context: Context) {
+    private fun showAlertDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder
             .setTitle(R.string.alert_dialog_title)
@@ -70,20 +92,6 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         addToHistory()
         _state.value = WorkoutState.Idle
         nextWorkoutPlanClick()
-    }
-
-    fun brakeWorkout() {
-        _state.value = WorkoutState.Idle
-    }
-
-    fun nextWorkoutPlanClick() {
-        workoutPlan.next()
-        displayCurrentPlanOnUI()
-    }
-
-    fun previousWorkoutPlanClick() {
-        workoutPlan.previous()
-        displayCurrentPlanOnUI()
     }
 
     private fun displayCurrentPlanOnUI(){
