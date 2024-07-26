@@ -51,11 +51,11 @@
                     android:text="@{viewModel.exercisesList}"
                     android:textAlignment="textStart"
                     android:textColor="#080C35"
-                    tools:text="@tools:sample/lorem/random"
                     app:layout_constraintEnd_toStartOf="@+id/btnNext"
                     app:layout_constraintStart_toEndOf="@+id/btnPrevious"
                     app:layout_constraintTop_toBottomOf="@+id/tvPlanNumber"
-                    />
+                    tools:text="@tools:sample/lorem/random"
+                    tools:maxLines="12"/>
 
                 <ImageButton
                     android:id="@+id/btnPrevious"
@@ -65,7 +65,7 @@
                     android:backgroundTint="@color/background"
                     android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
                     android:contentDescription="@string/previous"
-                    android:onClick="@{() -> viewModel.previousWorkoutPlan()}"
+                    android:onClick="@{() -> viewModel.previousWorkoutPlanClick()}"
                     android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.INVISIBLE : View.VISIBLE}"
                     app:srcCompat="@drawable/before"
                     app:tint="@color/design_default_color_primary_dark"
@@ -82,7 +82,7 @@
                     android:backgroundTint="@color/background"
                     android:clickable="@{viewModel.state == WorkoutState.Idle.INSTANCE}"
                     android:contentDescription="@string/next"
-                    android:onClick="@{() -> viewModel.nextWorkoutPlan()}"
+                    android:onClick="@{() -> viewModel.nextWorkoutPlanClick()}"
                     android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.INVISIBLE : View.VISIBLE}"
                     app:srcCompat="@drawable/next"
                     app:tint="@color/design_default_color_primary_dark"
@@ -104,9 +104,9 @@
             android:layout_marginHorizontal="@dimen/horizontal_margin"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/start_workout"
-            android:onClick="@{() -> viewModel.startWorkout()}"
+            android:onClick="@{() -> viewModel.startWorkoutClick()}"
             android:paddingVertical="8dp"
-            android:text="@string/start_title"
+            android:text="@string/start_button_title"
             android:textSize="24sp"
             android:visibility="@{viewModel.state == WorkoutState.Idle.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
@@ -146,9 +146,9 @@
             android:backgroundTint="#B71C1C"
             android:onClick="@{() -> viewModel.brakeWorkout()}"
             android:paddingVertical="8dp"
-            android:text="@string/break_title"
+            android:text="@string/break_button_title"
             android:textSize="24sp"
-            android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
             app:layout_constraintEnd_toStartOf="@+id/space"
@@ -156,19 +156,20 @@
 
         <Button
             android:id="@+id/btnFinish"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="16dp"
             android:backgroundTint="@color/finish_workout"
-            android:onClick="@{() -> viewModel.finishWorkout()}"
+            android:onClick="@{() -> viewModel.finishWorkoutClick(context)}"
             android:paddingVertical="8dp"
-            android:text="@string/finish_title"
+            android:text="@string/finish_button_title"
             android:textSize="24sp"
             android:visibility="@{viewModel.state == WorkoutState.Training.INSTANCE ? View.VISIBLE : View.GONE}"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/space" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,11 @@
 package com.ksv.workoutschedule.presentation.workout
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.data.WorkoutRepository
 import com.ksv.workoutschedule.entity.HistoryItem
@@ -19,12 +22,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
-    private val context = getApplication<Application>().applicationContext
     private val _state = MutableStateFlow<WorkoutState>(WorkoutState.Idle)
     val state = _state.asStateFlow()
     val exercisesList = MutableStateFlow("")
     val timerText = MutableStateFlow("")
-    val trainingPlan = MutableStateFlow(PLAN_NAME_PREFIX)
+    val trainingPlan = MutableStateFlow("")
 
     private var needToLoadData = true
     private var workoutPlan = WorkoutPlan()
@@ -32,14 +34,15 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
 
     fun openWorkoutFragment() {
         if (needToLoadData) {
+            val context = getApplication<Application>().applicationContext
             val workoutRepository = WorkoutRepository(context)
             workoutPlan = workoutRepository.loadWorkoutPlan()
             needToLoadData = false
-            nextWorkoutPlan()
+            nextWorkoutPlanClick()
         }
     }
 
-    fun startWorkout() {
+    fun startWorkoutClick() {
         startTime = LocalDateTime.now()
         _state.value = WorkoutState.Training
         viewModelScope.launch {
@@ -47,29 +50,48 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun finishWorkout() {
+    fun finishWorkoutClick(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder
+            .setTitle(R.string.alert_dialog_title)
+            .setMessage(R.string.alert_dialog_message)
+            .setPositiveButton(R.string.alert_dialog_yes) { _, _ ->
+                finishWorkout()
+            }
+            .setNegativeButton(R.string.alert_dialog_no){ _, _ ->
+                // do nothing
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun finishWorkout(){
         saveCurrentWorkout()
         addToHistory()
         _state.value = WorkoutState.Idle
-        nextWorkoutPlan()
+        nextWorkoutPlanClick()
     }
 
     fun brakeWorkout() {
         _state.value = WorkoutState.Idle
     }
 
-    fun nextWorkoutPlan() {
+    fun nextWorkoutPlanClick() {
         workoutPlan.next()
-        exercisesList.value = listToNumberedString(workoutPlan.exercises)
-        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
+        displayCurrentPlanOnUI()
     }
 
-    fun previousWorkoutPlan() {
+    fun previousWorkoutPlanClick() {
         workoutPlan.previous()
-        exercisesList.value = listToNumberedString(workoutPlan.exercises)
-        trainingPlan.value = "$PLAN_NAME_PREFIX${workoutPlan.press.number}"
+        displayCurrentPlanOnUI()
     }
 
+    private fun displayCurrentPlanOnUI(){
+        exercisesList.value = listToNumberedString(workoutPlan.exercises)
+        val context = getApplication<Application>().applicationContext
+        val prefix = context.getString(R.string.plan_name_prefix)
+        trainingPlan.value = "$prefix${workoutPlan.press.number}"
+    }
 
     private suspend fun timerTick() {
         while (state.value == WorkoutState.Training) {
@@ -80,11 +102,13 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun saveCurrentWorkout() {
+        val context = getApplication<Application>().applicationContext
         val workoutRepository = WorkoutRepository(context)
         workoutRepository.saveWorkoutPlan(workoutPlan)
     }
 
     private fun addToHistory() {
+        val context = getApplication<Application>().applicationContext
         val hisRepository = HistoryRepository(context)
         val localDate = LocalDate.now()
         val workoutDate = WorkoutDate(localDate.year, localDate.monthValue, localDate.dayOfMonth)
@@ -97,7 +121,6 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-
     private fun listToNumberedString(list: List<String>): String {
         val builder = StringBuilder()
         for ((i, e) in list.withIndex()) {
@@ -108,7 +131,4 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         return builder.toString()
     }
 
-    companion object {
-        private const val PLAN_NAME_PREFIX = "Группа упражнений №"
-    }
 }

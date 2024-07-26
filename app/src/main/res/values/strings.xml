@@ -4,14 +4,20 @@
 
     <string name="action_settings">Настройки</string>
 
-    <string name="date_default">23.03.2024</string>
-    <string name="plan_name_prefix">План тренировок №</string>
-    <string name="plan_default">Маятник, Ситап, Косые скручивания, Книжка, Скручивания с поворотом</string>
+<!--    <string name="date_default">23.03.2024</string>-->
+<!--    <string name="plan_default">Маятник, Ситап, Косые скручивания, Книжка, Скручивания с поворотом</string>-->
+
+    <!--    Workout Fragment-->
     <string name="previous">previous</string>
     <string name="next">next</string>
-    <string name="start_title">Старт</string>
-    <string name="break_title">Прервать</string>
-    <string name="finish_title">Закончить</string>
+    <string name="plan_name_prefix">Группа упражнений №</string>
+    <string name="start_button_title">Старт</string>
+    <string name="break_button_title">Прервать</string>
+    <string name="finish_button_title">Закончить</string>
+    <string name="alert_dialog_title">Подтверждение</string>
+    <string name="alert_dialog_message">Закончить тренировку?</string>
+    <string name="alert_dialog_yes">Да</string>
+    <string name="alert_dialog_no">Нет</string>
 
     <string name="history_card_caption">История</string>
     <string name="menu_history">История</string>
@@ -21,6 +27,7 @@
     <string name="no_answer_text">Нет</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="to_workout">Тренировка</string>
+
     <string name="greeting_quote">Не останавливайся, когда ты устал. Останавливайся, когда закончишь.</string>
 
 </resources>
