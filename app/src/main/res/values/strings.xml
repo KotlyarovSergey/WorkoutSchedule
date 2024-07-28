@@ -13,8 +13,10 @@
     <string name="plan_name_prefix">Группа упражнений №</string>
     <string name="start_button_title">Старт</string>
     <string name="finish_button_title">Закончить</string>
-    <string name="alert_dialog_title">Подтверждение</string>
-    <string name="alert_dialog_message">Закончить тренировку?</string>
+    <string name="alert_dialog_finish_title">Завершить тренировку?</string>
+    <string name="alert_dialog_finish_message">Все упражнения выполенены?</string>
+    <string name="alert_dialog_break_title">Преревать тренировку?</string>
+    <string name="alert_dialog_break_message">Данные не будут сохранены.</string>
     <string name="alert_dialog_yes">Да</string>
     <string name="alert_dialog_no">Нет</string>
 

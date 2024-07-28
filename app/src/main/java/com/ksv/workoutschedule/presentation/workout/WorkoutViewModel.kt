@@ -75,8 +75,8 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     private fun showAlertDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder
-            .setTitle(R.string.alert_dialog_title)
-            .setMessage(R.string.alert_dialog_message)
+            .setTitle(R.string.alert_dialog_finish_title)
+            .setMessage(R.string.alert_dialog_finish_message)
             .setPositiveButton(R.string.alert_dialog_yes) { _, _ ->
                 finishWorkout()
             }
