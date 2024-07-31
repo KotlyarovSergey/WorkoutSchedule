@@ -2,6 +2,14 @@
     <!--    <string name="app_name">WorkoutSchedule</string>-->
     <string name="app_name">План тренеровок</string>
 
+    <!--    Setting Fragment-->
+    <string name="setting_fragment_title">Настройки</string>
+    <string name="menu_clear_history">Очистить историю</string>
+    <string name="clear_history_switch">Очистить историю</string>
+    <string name="alert_dialog_clear_history_title">Очистить историю?</string>
+    <string name="alert_dialog_clear_history_message">История тренировок будет очищена без возоможности восстановления</string>
+    <string name="clear_history_toast_message">История тренировок очищена</string>
+
     <string name="action_settings">Настройки</string>
     <string name="menu_settings">Настройки</string>
 
@@ -18,13 +26,12 @@
     <string name="alert_dialog_finish_message">Все упражнения выполенены?</string>
     <string name="alert_dialog_break_title">Преревать тренировку?</string>
     <string name="alert_dialog_break_message">Данные не будут сохранены.</string>
+
     <string name="alert_dialog_yes">Да</string>
     <string name="alert_dialog_no">Нет</string>
 
     <string name="history_card_caption">История</string>
     <string name="menu_history">История</string>
-    <string name="menu_clear_history">Очистить историю</string>
-    <string name="clear_history_switch">Очистить историю</string>
     <string name="default_question">Вы уверены в своём выборе?</string>
     <string name="yes_answer_text">Да</string>
     <string name="no_answer_text">Нет</string>

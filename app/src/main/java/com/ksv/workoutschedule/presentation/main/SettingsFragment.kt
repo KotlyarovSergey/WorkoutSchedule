@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.ksv.workoutschedule.R
 import com.ksv.workoutschedule.data.HistoryRepository
 import com.ksv.workoutschedule.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.launch
@@ -14,7 +17,6 @@ import kotlinx.coroutines.launch
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private var confirmType = ConfirmType.NONE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,60 +33,47 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = TITLE
+        (activity as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.setting_fragment_title)
 
-        binding.yesAnswerTv.setOnClickListener {
-            when(confirmType){
-                ConfirmType.CLEAR_HISTORY -> {
+        clearHistoryOnClickListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.clearHistorySwitch.isChecked = false
+    }
+
+    private fun clearHistoryOnClickListener() {
+        binding.clearHistorySwitch.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder
+                .setTitle(getString(R.string.alert_dialog_clear_history_title))
+                .setMessage(getString(R.string.alert_dialog_clear_history_message))
+                .setPositiveButton(getString(R.string.alert_dialog_yes)) { _, _ ->
+                    binding.clearHistorySwitch.isChecked = false
                     clearHistory()
+                }
+                .setNegativeButton(getString(R.string.alert_dialog_no)) { _, _ ->
                     binding.clearHistorySwitch.isChecked = false
                 }
-                ConfirmType.NONE -> TODO()
-            }
-            binding.confirmCard.visibility = View.GONE
-            setEnable(true)
-        }
-        binding.noAnswerTv.setOnClickListener {
-            when(confirmType){
-                ConfirmType.CLEAR_HISTORY -> {
+                .setOnCancelListener { _ ->
                     binding.clearHistorySwitch.isChecked = false
                 }
-                ConfirmType.NONE -> TODO()
-            }
-            binding.confirmCard.visibility = View.GONE
-            setEnable(true)
+            val dialog = builder.create()
+            dialog.show()
         }
-
-        binding.clearHistorySwitch.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
-//                confirmType = ConfirmType.CLEAR_HISTORY
-//                setEnable(false)
-//                binding.confirmCard.visibility = View.VISIBLE
-
-
-            }
-        }
-
-
     }
 
-    private fun setEnable(isEnable: Boolean){
-        binding.clearHistorySwitch.isClickable = isEnable
-        binding.clearHistorySwitch.isEnabled = isEnable
-
-    }
-
-    private fun clearHistory(){
-        val hr = HistoryRepository(requireContext())
+    private fun clearHistory() {
+        val historyRepository = HistoryRepository(requireContext())
         lifecycleScope.launch {
-            hr.clearHistory()
-        }
-    }
-
-    companion object{
-        private const val TITLE = "Настройки"
-        enum class ConfirmType{
-            CLEAR_HISTORY, NONE
+            historyRepository.clearHistory()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.clear_history_toast_message),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
