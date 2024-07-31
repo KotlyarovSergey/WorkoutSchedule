@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.forEach
 import androidx.core.view.iterator
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -33,34 +34,49 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideMenuItem(menu: Menu?) {
         // visible all items
-        val iterator = menu?.iterator()
-        if (iterator != null) {
-            for (item in iterator) {
-                item.isVisible = true
-            }
+        menu?.forEach { item ->
+            item.isVisible = true
         }
+
         // get current fragment and hide respective item
         val frag = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (frag) {
             is HistoryFragment -> {
                 menu?.findItem(R.id.menu_history)?.isVisible = false
             }
+//            is GreetingFragment -> {
+//                menu?.findItem(R.id.menu_clear_history)?.isVisible = false
+//            }
+            is SettingsFragment -> {
+                //menu?.findItem(R.id.menu_setting)?.isVisible = false
+                menu?.forEach { item ->
+                    item.isVisible = false
+                }
+            }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         return when (item.itemId) {
             R.id.menu_history -> {
-                val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
                 if (fragment !is HistoryFragment) {
                     supportFragmentManager.commit {
                         replace<HistoryFragment>(binding.fragmentContainer.id, HistoryFragment::class.java.name)
-                        addToBackStack(HistoryFragment::javaClass.name)
+                        addToBackStack(HistoryFragment::class.java.name)
                     }
                 }
                 true
             }
-
+            R.id.menu_setting -> {
+                if (fragment !is SettingsFragment) {
+                    supportFragmentManager.commit {
+                        replace<SettingsFragment>(binding.fragmentContainer.id, SettingsFragment::class.java.name)
+                        addToBackStack(SettingsFragment::class.java.name)
+                    }
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 

@@ -3,6 +3,7 @@
     <string name="app_name">План тренеровок</string>
 
     <string name="action_settings">Настройки</string>
+    <string name="menu_settings">Настройки</string>
 
 <!--    <string name="date_default">23.03.2024</string>-->
 <!--    <string name="plan_default">Маятник, Ситап, Косые скручивания, Книжка, Скручивания с поворотом</string>-->
@@ -22,6 +23,7 @@
 
     <string name="history_card_caption">История</string>
     <string name="menu_history">История</string>
+    <string name="menu_clear_history">Очистить историю</string>
     <string name="clear_history_switch">Очистить историю</string>
     <string name="default_question">Вы уверены в своём выборе?</string>
     <string name="yes_answer_text">Да</string>

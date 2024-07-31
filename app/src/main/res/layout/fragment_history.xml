@@ -9,6 +9,8 @@
         android:background="#9CB3D8"
         tools:context=".presentation.main.HistoryFragment">
 
+
+
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="wrap_content"
@@ -36,8 +38,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textIsSelectable="true"
-
                     />
+
             </ScrollView>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
